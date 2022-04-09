@@ -1,0 +1,42 @@
+1)
+SELECT name, surname, score FROM student
+WHERE score>=4 AND score<=4.5
+2)
+SELECT name, surname, n_group
+FROM student
+WHERE n_group::varchar LIKE '4%'
+3)
+SELECT name, surname, n_group FROM student 
+ORDER BY n_group DESC, name ASC;
+4)
+SELECT name, surname, score FROM student
+WHERE score>4
+ORDER BY score DESC
+5)
+SELECT name, risk FROM hobby
+WHERE id = 1 OR id = 2;
+6)
+SELECT hobby_id, student_id, date_start, date_finish FROM student_hobby
+WHERE date_start >= '03-14-2004' AND date_start <= '06-18-2013' AND date_finish IS NULL;
+7)
+SELECT name, surname, score FROM student
+WHERE score > 4.5
+ORDER BY score DESC;
+8)
+SELECT name, surname, score FROM student
+WHERE score = (SELECT max(score) FROM student)
+LIMIT 5;
+9)
+SELECT name,
+CASE
+WHEN risk >=8 then 'очень высокий'
+WHEN risk >=6 AND risk <8 then 'высокий'
+WHEN risk >=4 AND risk <8 then 'средний'
+WHEN risk >=2 AND risk <4 then 'низкий'
+WHEN risk < 2 then 'очень низкий'
+end
+FROM hobby
+10)
+SELECT name, risk FROM hobby
+ORDER BY risk DESC
+LIMIT 3;

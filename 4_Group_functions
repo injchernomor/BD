@@ -1,0 +1,18 @@
+1)
+SELECT st.name, st.surname, hob.name
+FROM student st, hobby hob, student_hobby st_hob
+WHERE st_hob.student_id = st.id AND st_hob.hobby_id = hob.id
+2)
+SELECT st.id, st.name, st.surname, hob.name, age(st_hob.date_finish, st_hob.date_start)
+FROM student st, hobby hob, student_hobby st_hob
+WHERE st.id = st_hob.student_id AND hob.id = st_hob.hobby_id
+AND age(st_hob.date_finish, st_hob.date_start) is NOT null
+ORDER BY age(st_hob.date_finish, st_hob.date_start) DESC LIMIT 1
+3)
+SELECT st.id, st.name, st.surname, st.date_birth, st.score, SUM(hobby.risk)
+FROM student st
+INNER JOIN student_hobby st_hob ON st.id = st_hob.student_id
+INNER JOIN hobby ON hobby.id = st_hob.hobby_id
+WHERE st.score > (SELECT SUM(score)/COUNT(score) FROM student) --AVG почему-то не работает
+GROUP BY st.id
+HAVING SUM(hobby.risk) > 0.9

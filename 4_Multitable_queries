@@ -16,3 +16,12 @@ INNER JOIN hobby ON hobby.id = st_hob.hobby_id
 WHERE st.score > (SELECT SUM(score)/COUNT(score) FROM student) --AVG почему-то не работает
 GROUP BY st.id
 HAVING SUM(hobby.risk) > 0.9
+
+5)
+SELECT st.id, st.surname, st.name, st.score, st.date_birth,  age(current_date, st.date_birth)
+FROM student st
+INNER JOIN student_hobby st_hob ON st.id = st_hob.student_id
+INNER JOIN hobby ON hobby.id = st_hob.hobby_id
+WHERE extract(year from age(current_date, st.date_birth)) > 18
+AND (SELECT COUNT(hobby.name) FROM hobby WHERE st_hob.date_finish is null) > 1
+GROUP BY st.id

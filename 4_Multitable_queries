@@ -33,3 +33,20 @@ INNER JOIN student_hobby st_hob ON hobby.id = st_hob.hobby_id
 INNER JOIN student st ON st.id = st_hob.student_id
 WHERE st.score < 3.49 AND st_hob.date_finish IS null 
 AND st.n_group::varchar LIKE '2%'
+
+11) 
+SELECT st1.n_group
+FROM (SELECT n_group, COUNT(id) FROM student WHERE score >= 4 GROUP BY n_group) AS st1
+INNER JOIN (SELECT n_group, COUNT(id) FROM student GROUP BY n_group) AS st2
+ON st1.n_group = st2.n_group
+WHERE st2.count/st1.count >= 0.6
+
+14) 
+CREATE OR REPLACE VIEW task14 AS
+SELECT st.* FROM student st
+INNER JOIN student_hobby st_hob
+ON st.id = st_hob.student_id
+WHERE st_hob.date_finish IS null 
+AND DATE_PART('year', current_date) - DATE_PART('year', st_hob.date_start) > 5;
+SELECT * FROM task14
+
